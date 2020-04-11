@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/PoGoTrades-Backend/static/css/main.d1b05096.chunk.css",
-    "main.js": "/PoGoTrades-Backend/static/js/main.a4e839c7.chunk.js",
-    "main.js.map": "/PoGoTrades-Backend/static/js/main.a4e839c7.chunk.js.map",
-    "runtime-main.js": "/PoGoTrades-Backend/static/js/runtime-main.9fbccc40.js",
-    "runtime-main.js.map": "/PoGoTrades-Backend/static/js/runtime-main.9fbccc40.js.map",
-    "static/js/2.935eb933.chunk.js": "/PoGoTrades-Backend/static/js/2.935eb933.chunk.js",
-    "static/js/2.935eb933.chunk.js.map": "/PoGoTrades-Backend/static/js/2.935eb933.chunk.js.map",
-    "index.html": "/PoGoTrades-Backend/index.html",
-    "precache-manifest.0f793269767a5309d754595d0abeab6c.js": "/PoGoTrades-Backend/precache-manifest.0f793269767a5309d754595d0abeab6c.js",
-    "service-worker.js": "/PoGoTrades-Backend/service-worker.js",
-    "static/css/main.d1b05096.chunk.css.map": "/PoGoTrades-Backend/static/css/main.d1b05096.chunk.css.map",
-    "static/js/2.935eb933.chunk.js.LICENSE.txt": "/PoGoTrades-Backend/static/js/2.935eb933.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/PoGoTrades-Backend/static/media/logo.5d5d9eef.svg"
+    "main.css": "/PoGoTrades-Frontend/static/css/main.d1b05096.chunk.css",
+    "main.js": "/PoGoTrades-Frontend/static/js/main.74bea830.chunk.js",
+    "main.js.map": "/PoGoTrades-Frontend/static/js/main.74bea830.chunk.js.map",
+    "runtime-main.js": "/PoGoTrades-Frontend/static/js/runtime-main.e8ec08f1.js",
+    "runtime-main.js.map": "/PoGoTrades-Frontend/static/js/runtime-main.e8ec08f1.js.map",
+    "static/js/2.935eb933.chunk.js": "/PoGoTrades-Frontend/static/js/2.935eb933.chunk.js",
+    "static/js/2.935eb933.chunk.js.map": "/PoGoTrades-Frontend/static/js/2.935eb933.chunk.js.map",
+    "index.html": "/PoGoTrades-Frontend/index.html",
+    "precache-manifest.b1a6c26caa044bc5899adefa7c8147b5.js": "/PoGoTrades-Frontend/precache-manifest.b1a6c26caa044bc5899adefa7c8147b5.js",
+    "service-worker.js": "/PoGoTrades-Frontend/service-worker.js",
+    "static/css/main.d1b05096.chunk.css.map": "/PoGoTrades-Frontend/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.935eb933.chunk.js.LICENSE.txt": "/PoGoTrades-Frontend/static/js/2.935eb933.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/PoGoTrades-Frontend/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.9fbccc40.js",
+    "static/js/runtime-main.e8ec08f1.js",
     "static/js/2.935eb933.chunk.js",
     "static/css/main.d1b05096.chunk.css",
-    "static/js/main.a4e839c7.chunk.js"
+    "static/js/main.74bea830.chunk.js"
   ]
 }
