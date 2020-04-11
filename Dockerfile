@@ -1,10 +1,10 @@
 FROM node:latest
 
-WORKDIR /Frontend
+WORKDIR /frontend
 
 RUN apt-get update
 
-COPY package*.json yarn.lock ./
+COPY package.json yarn.lock ./
 
 RUN yarn
 # RUN yarn global add react-scripts
