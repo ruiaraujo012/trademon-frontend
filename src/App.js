@@ -1,30 +1,4 @@
-// import React from "react";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -32,51 +6,61 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/about">About</Link>
-                </li>
-                <li>
-                  <Link to="/users">Users</Link>
-                </li>
-              </ul>
-            </nav>
+      <button type="button" class="btn btn-primary">
+        Primary
+      </button>
+      <button type="button" class="btn btn-secondary">
+        Secondary
+      </button>
+      <button type="button" class="btn btn-tertiary">
+        Tertiary
+      </button>
+      <button type="button" class="btn btn-success">
+        Success
+      </button>
+      <button type="button" class="btn btn-danger">
+        Danger
+      </button>
+      <button type="button" class="btn btn-warning">
+        Warning
+      </button>
+      <button type="button" class="btn btn-info">
+        Info
+      </button>
+      <button type="button" class="btn btn-light">
+        Light
+      </button>
+      <button type="button" class="btn btn-dark">
+        Dark
+      </button>
 
-            {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-            <Switch>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/users">
-                <Users />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      </header>
+      <div class="alert alert-primary" role="alert">
+        This is a primary alert—check it out!
+      </div>
+      <div class="alert alert-secondary" role="alert">
+        This is a secondary alert—check it out!
+      </div>
+      <div class="alert alert-tertiary" role="alert">
+        This is a tertiary alert—check it out!
+      </div>
+      <div class="alert alert-success" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div class="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+      </div>
+      <div class="alert alert-warning" role="alert">
+        This is a warning alert—check it out!
+      </div>
+      <div class="alert alert-info" role="alert">
+        This is a info alert—check it out!
+      </div>
+      <div class="alert alert-light" role="alert">
+        This is a light alert—check it out!
+      </div>
+      <div class="alert alert-dark" role="alert">
+        This is a dark alert—check it out!
+      </div>
     </div>
   );
 }
