@@ -8,16 +8,17 @@ export class Navbar extends Component {
     return (
       <div>
         <nav className="navbar navbar-light bg-dark">
-          <a className="navbar-brand text-white nav-title" href="/">
+          <a className="navbar-brand text-light nav-title" href="/">
             <img
               src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt=""
+              width="40"
+              height="40"
+              className="d-inline-block"
+              alt="Logo"
             />
             PoGoTrades
           </a>
+          <i className="fas fa-sign-in-alt fa-lg icon-color" />
         </nav>
       </div>
     );
