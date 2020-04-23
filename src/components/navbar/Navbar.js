@@ -8,7 +8,7 @@ export class Navbar extends Component {
     return (
       <div>
         <nav className="navbar navbar-light bg-dark navbar-expand-md">
-          <a className="navbar-brand text-light nav-title" href="/">
+          <a className="navbar-brand text-light custom-nav-title" href="/">
             <img
               src={logo}
               width="40"
@@ -19,32 +19,43 @@ export class Navbar extends Component {
             PoGoTrades
           </a>
           <button
-            className="navbar-toggler"
+            className="navbar-toggler border border-light"
             type="button"
             data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
+            data-target="#navbarContent"
+            aria-controls="navbarContent"
             aria-expanded="true"
             aria-label="Toggle navigation"
           >
-            <i className="fas fa-bars"></i>
-            {/* <span className="navbar-toggler-icon"></span> */}
+            <i className="fas fa-bars custom-icon-format" />
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="/home">
-                  Home <span className="sr-only">(current)</span>
+              <li className="nav-item">
+                <a
+                  className="nav-link custom-nav-item text-light"
+                  href="/trades"
+                >
+                  Trades
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/link">
-                  Link
+                <a
+                  className="nav-link custom-nav-item text-light"
+                  href="/history"
+                >
+                  History
                 </a>
               </li>
             </ul>
-            {/* <i className="fas fa-sign-in-alt fa-lg icon-color" /> */}
+
+            <a
+              className="nav-link text-light custom-auth-button"
+              href="/signin"
+            >
+              <i className="fas fa-sign-in-alt fa-lg custom-icon-format" />
+            </a>
           </div>
         </nav>
       </div>

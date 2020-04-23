@@ -1,8 +1,23 @@
-.nav-title {
+.custom-nav-title {
   font-weight: bold;
   font-size: large;
+  color: #c0e4dd;
 }
 
-.icon-color {
+.custom-nav-item {
+  font-weight: bold;
+  font-size: medium;
   color: #c0e4dd;
+}
+
+.custom-icon-format {
+  color: #c0e4dd;
+}
+
+.custom-icon-format:hover {
+  color: #8acdc0;
+}
+
+.custom-auth-button:hover > .custom-icon-format {
+  color: #8acdc0;
 }
