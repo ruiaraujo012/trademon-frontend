@@ -3,6 +3,27 @@ import React, { Component } from "react";
 import "./Navbar.css";
 import logo from "../../images/profile-nbg.png";
 
+const toggleAuthButton = (isLoggedIn) => {
+  if (isLoggedIn) return signoutButton();
+  return signinButton();
+};
+
+const signinButton = () => {
+  return (
+    <a className="nav-link text-light custom-auth-button" href="/signin">
+      <i className="fas fa-sign-in-alt fa-lg custom-icon-format" />
+    </a>
+  );
+};
+
+const signoutButton = () => {
+  return (
+    <a className="nav-link text-light custom-auth-button" href="/signout">
+      <i className="fas fa-sign-out-alt fa-lg custom-icon-format" />
+    </a>
+  );
+};
+
 export class Navbar extends Component {
   render() {
     return (
@@ -50,12 +71,7 @@ export class Navbar extends Component {
               </li>
             </ul>
 
-            <a
-              className="nav-link text-light custom-auth-button"
-              href="/signin"
-            >
-              <i className="fas fa-sign-in-alt fa-lg custom-icon-format" />
-            </a>
+            {toggleAuthButton(false)}
           </div>
         </nav>
       </div>
