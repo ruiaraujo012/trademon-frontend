@@ -3,29 +3,38 @@ import React, { Component } from "react";
 import "./Navbar.css";
 import logo from "../../images/profile-nbg.png";
 
-const toggleAuthButton = (isLoggedIn) => {
-  if (isLoggedIn) return signoutButton();
-  return signinButton();
-};
-
-const signinButton = () => {
-  return (
-    <a className="nav-link text-light custom-auth-button" href="/signin">
-      <i className="fas fa-sign-in-alt fa-lg custom-icon-format" />
-    </a>
-  );
-};
-
-const signoutButton = () => {
-  return (
-    <a className="nav-link text-light custom-auth-button" href="/signout">
-      <i className="fas fa-sign-out-alt fa-lg custom-icon-format" />
-    </a>
-  );
-};
-
 export class Navbar extends Component {
+  state = {
+    isUserLoggedIn: false,
+  };
+
   render() {
+    const toggleAuthButton = () => {
+      if (this.props.isUserLoggedIn) return signoutButton();
+      return signinButton();
+    };
+
+    const signinButton = () => {
+      return (
+        <button
+          className="btn btn-outlined-light custom-auth-button"
+          onClick={() => this.props.onLogin()}
+        >
+          <i className="fas fa-sign-in-alt fa-lg custom-icon-format" />
+        </button>
+      );
+    };
+
+    const signoutButton = () => {
+      return (
+        <button
+          className="btn btn-outlined-light custom-auth-button"
+          onClick={() => this.props.onLogout()}
+        >
+          <i className="fas fa-sign-out-alt fa-lg custom-icon-format" />
+        </button>
+      );
+    };
     return (
       <div>
         <nav className="navbar navbar-light bg-dark navbar-expand-md">
