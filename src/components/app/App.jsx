@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import Navbar from "../navbar/Navbar";
+import { Topbar } from "../topbar/Topbar";
 
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-class App extends Component {
+export class App extends Component {
   state = {
     isUserLoggedIn: false,
   };
@@ -29,12 +29,78 @@ class App extends Component {
     const { isUserLoggedIn } = this.state;
     return (
       <div className="App">
-        <Navbar
+        <Topbar
           isUserLoggedIn={isUserLoggedIn}
           onLogin={this.handleLogin}
           onLogout={this.handleLogout}
         />
-        <h4 className="m-2">Hello World!</h4>
+        {/*
+         * Add 70px because Bootstrap css hides portion of
+         * container below navbar navbar-fixed-top
+         */}
+        <div style={{ paddingTop: "70px" }}>
+          <h4 className="m-2">Hello World!</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
+            molestias eius excepturi ea, ducimus optio, voluptas quas quia,
+            voluptatum quisquam incidunt architecto expedita maiores deserunt.
+            Beatae cum odit cumque tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
+            aperiam est excepturi molestiae velit quibusdam inventore debitis
+            facilis dicta neque, provident culpa. Consectetur odit vel quos
+            sapiente nesciunt nihil tempora.
+          </p>
+        </div>
       </div>
     );
   }
