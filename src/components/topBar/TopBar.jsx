@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function TopBar() {
+export function TopBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -57,6 +57,11 @@ export function TopBar() {
     handleMobileMenuClose();
   };
 
+  const handleLogoutMenuClose = () => {
+    props.onLogout();
+    handleMenuClose();
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -71,7 +76,7 @@ export function TopBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleLogoutMenuClose}>
         <Box mr={1}>Logout</Box>
         <ExitToAppOutlined />
       </MenuItem>
@@ -100,6 +105,60 @@ export function TopBar() {
     </Menu>
   );
 
+  const loggedOutMenu = (
+    <div>
+      <div className={classes.sectionDesktop}>
+        <IconButton
+          edge="end"
+          aria-label="account of current user"
+          aria-haspopup="true"
+          onClick={handleProfileMenuOpen}
+          color="inherit"
+        >
+          <AccountCircleOutlined />
+        </IconButton>
+      </div>
+      <div className={classes.sectionMobile}>
+        <IconButton
+          aria-label="show more"
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen}
+          color="inherit"
+        >
+          <ViewHeadlineOutlined />
+        </IconButton>
+      </div>
+    </div>
+  );
+
+  const loggedInMenu = (
+    <div>
+      <Button className="custom-button-link" onClick={props.onLogin}>
+        Signin
+      </Button>
+    </div>
+  );
+
+  const accessToken = localStorage.getItem("access_token");
+
+  if (accessToken !== null && accessToken !== undefined && localStorage !== "")
+    return (
+      <div>
+        <AppBar position="fixed">
+          <Toolbar>
+            <Button href="/" className="custom-button-link">
+              <img src={logo} width="30" height="30" alt="Logo" />
+              Trademon
+            </Button>
+            <div className={classes.grow} />
+            {loggedOutMenu}
+          </Toolbar>
+        </AppBar>
+        {renderMobileMenu}
+        {renderMenu}
+      </div>
+    );
+
   return (
     <div>
       <AppBar position="fixed">
@@ -109,27 +168,7 @@ export function TopBar() {
             Trademon
           </Button>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircleOutlined />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <ViewHeadlineOutlined />
-            </IconButton>
-          </div>
+          {loggedInMenu}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

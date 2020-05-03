@@ -9,31 +9,26 @@ import { TopBar } from "../topBar/TopBar";
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export class App extends Component {
-  // state = {
-  //   isUserLoggedIn: false,
-  // };
+  state = {
+    openLoginModal: false,
+  };
 
-  // componentDidMount = () => {
-  //   if (localStorage.getItem("userToken"))
-  //     this.setState({ isUserLoggedIn: true });
-  // };
+  handleLogin = () => {
+    localStorage.setItem("access_token", "Some.Token");
+    // Remove after having a modal
+    window.location.reload(false);
+  };
 
-  // handleLogin = () => {
-  //   localStorage.setItem("userToken", "ABC");
-  //   this.setState({ isUserLoggedIn: true });
-  // };
-
-  // handleLogout = () => {
-  //   localStorage.removeItem("userToken");
-  //   this.setState({ isUserLoggedIn: false });
-  // };
+  handleLogout = () => {
+    localStorage.removeItem("access_token");
+  };
 
   render() {
     // const { isUserLoggedIn } = this.state;
     return (
       <div className="App">
-        {/* NavBar */}
-        <TopBar />
+        <TopBar onLogin={this.handleLogin} onLogout={this.handleLogout} />
+
         <Box mt={10}>
           <h4 className="m-2">Hello World!</h4>
           <Box mb={2}>
