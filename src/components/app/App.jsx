@@ -5,6 +5,7 @@ import { Button, Box } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import { TopBar } from "../topBar/TopBar";
+import { LoginModal } from "../auth/LoginModal";
 
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -14,20 +15,30 @@ export class App extends Component {
   };
 
   handleLogin = () => {
-    localStorage.setItem("access_token", "Some.Token");
+    this.setState({ openLoginModal: true });
     // Remove after having a modal
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   handleLogout = () => {
     localStorage.removeItem("access_token");
   };
 
+  handleLoginModalClose = () => {
+    this.setState({ openLoginModal: false });
+  };
+
   render() {
-    // const { isUserLoggedIn } = this.state;
+    const { openLoginModal } = this.state;
+
     return (
       <div className="App">
         <TopBar onLogin={this.handleLogin} onLogout={this.handleLogout} />
+
+        <LoginModal
+          open={openLoginModal}
+          onClickClose={this.handleLoginModalClose}
+        />
 
         <Box mt={10}>
           <h4 className="m-2">Hello World!</h4>
