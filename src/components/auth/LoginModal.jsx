@@ -8,9 +8,25 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Box,
 } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 export class LoginModal extends Component {
+  state = {
+    password: "",
+    showPassword: false,
+  };
+
+  handleChange = (prop) => (event) => {
+    this.setState({ [prop]: event.target.value });
+  };
+
   handleClickLogin = () => {
     localStorage.setItem("access_token", "Some.Token");
     this.props.onClickClose();
@@ -20,8 +36,17 @@ export class LoginModal extends Component {
     this.props.onClickClose();
   };
 
+  handleClickShowPassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
+  };
+
+  handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   render() {
     const { open } = this.props;
+    const { password, showPassword } = this.state;
 
     return (
       <div>
@@ -30,21 +55,43 @@ export class LoginModal extends Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="form-dialog-title">Login</DialogTitle>
 
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            />
+            <Box m="Auto" mb={2}>
+              <TextField
+                id="outlined-basic"
+                label="Username"
+                variant="outlined"
+                fullWidth
+              />
+            </Box>
+            <Box m="Auto">
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={this.handleChange("password")}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={70}
+                />
+              </FormControl>
+            </Box>
           </DialogContent>
 
           <DialogActions>
@@ -57,7 +104,7 @@ export class LoginModal extends Component {
               color="primary"
               variant="outlined"
             >
-              Subscribe
+              Login
             </Button>
           </DialogActions>
         </Dialog>
