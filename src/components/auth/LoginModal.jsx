@@ -2,37 +2,61 @@ import React, { Component } from "react";
 
 import {
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControl,
   InputLabel,
-  OutlinedInput,
+  FilledInput,
   InputAdornment,
   IconButton,
   Box,
 } from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import {
+  Visibility,
+  VisibilityOff,
+  AccountBoxOutlined,
+} from "@material-ui/icons";
 
-export class LoginModal extends Component {
-  state = {
+const initialState = {
+  loginData: {
+    username: "",
     password: "",
-    showPassword: false,
+  },
+  showPassword: false,
+};
+export class LoginModal extends Component {
+  state = { ...initialState };
+
+  resetState = () => {
+    this.setState({ ...initialState });
   };
 
   handleChange = (prop) => (event) => {
-    this.setState({ [prop]: event.target.value });
+    switch (prop) {
+      case "password":
+      case "username":
+        const loginData = Object.assign({}, this.state.loginData, {
+          [prop]: event.target.value,
+        });
+
+        this.setState({ loginData });
+        break;
+
+      default:
+        this.setState({ [prop]: event.target.value });
+        break;
+    }
   };
 
-  handleClickLogin = () => {
-    localStorage.setItem("access_token", "Some.Token");
+  handleClickLogin = async () => {
+    await this.resetState();
     this.props.onClickClose();
   };
 
   handleClose = () => {
+    this.setState({});
     this.props.onClickClose();
   };
 
@@ -46,7 +70,7 @@ export class LoginModal extends Component {
 
   render() {
     const { open } = this.props;
-    const { password, showPassword } = this.state;
+    const { loginData, showPassword } = this.state;
 
     return (
       <div>
@@ -58,39 +82,51 @@ export class LoginModal extends Component {
           <DialogTitle id="form-dialog-title">Login</DialogTitle>
 
           <DialogContent>
-            <Box m="Auto" mb={2}>
-              <TextField
-                id="outlined-basic"
-                label="Username"
-                variant="outlined"
-                fullWidth
-              />
-            </Box>
             <Box m="Auto">
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Password
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={this.handleChange("password")}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={70}
-                />
-              </FormControl>
+              <form>
+                <FormControl fullWidth variant="outlined" margin="normal">
+                  <InputLabel htmlFor="outlined-adornment-username">
+                    Username
+                  </InputLabel>
+
+                  <FilledInput
+                    id="outlined-adornment-username"
+                    value={loginData.username}
+                    onChange={this.handleChange("username")}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <AccountBoxOutlined />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl variant="outlined" fullWidth margin="normal">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Password
+                  </InputLabel>
+
+                  <FilledInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    value={loginData.password}
+                    onChange={this.handleChange("password")}
+                    autoComplete="on"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </form>
             </Box>
           </DialogContent>
 
