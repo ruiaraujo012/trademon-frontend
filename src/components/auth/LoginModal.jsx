@@ -19,6 +19,8 @@ import {
   AccountBoxOutlined,
 } from "@material-ui/icons";
 
+import API from "../../utils/api";
+
 const initialState = {
   loginData: {
     username: "",
@@ -51,8 +53,15 @@ export class LoginModal extends Component {
   };
 
   handleClickLogin = async () => {
-    await this.resetState();
+    try {
+      const { data } = await API.post("/users/login", {
+        ...this.state.loginData,
+      });
+      console.log("response :>> ", data);
+      this.resetState();
     this.props.onClickClose();
+    } catch (err) {
+    }
   };
 
   handleClose = () => {
