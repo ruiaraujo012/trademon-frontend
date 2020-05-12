@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Box } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
@@ -30,6 +32,8 @@ export class App extends Component {
 
     return (
       <div className="App">
+        <ToastContainer />
+
         <TopBar onLogin={this.handleLogin} onLogout={this.handleLogout} />
 
         <LoginModal

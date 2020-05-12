@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import toastNotification from "../../utils/toastNotification";
 
 import {
   Button,
@@ -57,10 +58,21 @@ export class LoginModal extends Component {
       const { data } = await API.post("/users/login", {
         ...this.state.loginData,
       });
+      toastNotification(data.message, "success");
+
       console.log("response :>> ", data);
       this.resetState();
-    this.props.onClickClose();
+      this.props.onClickClose();
     } catch (err) {
+      let parsedError = Object.assign({}, err);
+      parsedError = parsedError.response;
+
+      if (parsedError !== undefined) {
+        const errorMessage = parsedError.data.message;
+        toastNotification(errorMessage, "error");
+      } else {
+        toastNotification("Ups, error conecting to server.", "error");
+      }
     }
   };
 
