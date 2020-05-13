@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+
 import { ThemeProvider } from "@material-ui/core/styles";
+import { CssBaseline } from "@material-ui/core";
 import theme from "./ui/theme/index";
+
 import { App } from "./components/app/App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
+    <CssBaseline />
     <App />
   </ThemeProvider>,
   document.getElementById("root")

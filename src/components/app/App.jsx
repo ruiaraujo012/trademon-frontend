@@ -1,104 +1,52 @@
 import React, { Component } from "react";
-import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { Button, Box } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
+import { Box } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
+
+import { TopBar } from "../topBar/TopBar";
+import { LoginModal } from "../auth/LoginModal";
 
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export class App extends Component {
-  // state = {
-  //   isUserLoggedIn: false,
-  // };
+  state = {
+    openLoginModal: false,
+  };
 
-  // componentDidMount = () => {
-  //   if (localStorage.getItem("userToken"))
-  //     this.setState({ isUserLoggedIn: true });
-  // };
+  handleLogin = () => {
+    this.setState({ openLoginModal: true });
+  };
 
-  // handleLogin = () => {
-  //   localStorage.setItem("userToken", "ABC");
-  //   this.setState({ isUserLoggedIn: true });
-  // };
+  handleLogout = () => {
+    localStorage.removeItem("access_token");
+  };
 
-  // handleLogout = () => {
-  //   localStorage.removeItem("userToken");
-  //   this.setState({ isUserLoggedIn: false });
-  // };
+  handleLoginModalClose = () => {
+    this.setState({ openLoginModal: false });
+  };
 
   render() {
-    // const { isUserLoggedIn } = this.state;
+    const { openLoginModal } = this.state;
+
     return (
       <div className="App">
-        <h4 className="m-2">Hello World!</h4>
-        <Box mb={2}>
-          <Button variant="outlined" color="primary">
-            Hello World
-          </Button>
+        <ToastContainer />
+
+        <TopBar onLogin={this.handleLogin} onLogout={this.handleLogout} />
+
+        <LoginModal
+          open={openLoginModal}
+          onClickClose={this.handleLoginModalClose}
+        />
+
+        <Box mt={10} width="70%" m="Auto">
+          <Alert severity="info" variant="filled">
+            <AlertTitle>Info</AlertTitle>
+            This app still in construction...
+          </Alert>
         </Box>
-        <Alert severity="success" variant="outlined">
-          Hello World
-        </Alert>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-          molestias eius excepturi ea, ducimus optio, voluptas quas quia,
-          voluptatum quisquam incidunt architecto expedita maiores deserunt.
-          Beatae cum odit cumque tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-          aperiam est excepturi molestiae velit quibusdam inventore debitis
-          facilis dicta neque, provident culpa. Consectetur odit vel quos
-          sapiente nesciunt nihil tempora.
-        </p>
       </div>
     );
   }
