@@ -13,6 +13,7 @@ import {
   InputAdornment,
   IconButton,
   Box,
+  Grid,
 } from "@material-ui/core";
 import {
   Visibility,
@@ -28,6 +29,7 @@ const initialState = {
     password: "",
   },
   showPassword: false,
+  errorForm: false,
 };
 export class LoginModal extends Component {
   state = { ...initialState };
@@ -58,9 +60,10 @@ export class LoginModal extends Component {
       const { data } = await API.post("/users/login", {
         ...this.state.loginData,
       });
+
+      localStorage.setItem("access_token", data.token);
       toastNotification(data.message, "success");
 
-      console.log("response :>> ", data);
       this.resetState();
       this.props.onClickClose();
     } catch (err) {
@@ -68,6 +71,7 @@ export class LoginModal extends Component {
       parsedError = parsedError.response;
 
       if (parsedError !== undefined) {
+        this.setState({ errorForm: true });
         const errorMessage = parsedError.data.message;
         toastNotification(errorMessage, "error");
       } else {
@@ -77,7 +81,7 @@ export class LoginModal extends Component {
   };
 
   handleClose = () => {
-    this.setState({});
+    this.resetState();
     this.props.onClickClose();
   };
 
@@ -90,8 +94,8 @@ export class LoginModal extends Component {
   };
 
   render() {
-    const { open } = this.props;
-    const { loginData, showPassword } = this.state;
+    const { open, onSignup } = this.props;
+    const { loginData, showPassword, errorForm } = this.state;
 
     return (
       <div>
@@ -114,6 +118,7 @@ export class LoginModal extends Component {
                     id="outlined-adornment-username"
                     value={loginData.username}
                     onChange={this.handleChange("username")}
+                    error={errorForm}
                     endAdornment={
                       <InputAdornment position="end">
                         <AccountBoxOutlined />
@@ -132,6 +137,7 @@ export class LoginModal extends Component {
                     type={showPassword ? "text" : "password"}
                     value={loginData.password}
                     onChange={this.handleChange("password")}
+                    error={errorForm}
                     autoComplete="on"
                     endAdornment={
                       <InputAdornment position="end">
@@ -152,6 +158,17 @@ export class LoginModal extends Component {
           </DialogContent>
 
           <DialogActions>
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              <Button size="small" color="secondary" onClick={onSignup}>
+                Don't have account? Create one here.
+              </Button>
+            </Grid>
+
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
