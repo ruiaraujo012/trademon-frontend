@@ -24,14 +24,17 @@ import {
 import API from "../../utils/api";
 
 const initialState = {
-  loginData: {
+  signupData: {
     username: "",
     password: "",
   },
+  passwordConfirmation: "",
   showPassword: false,
-  errorForm: false,
+  errorUsername: false,
+  errorPassword: false,
 };
-export class LoginModal extends Component {
+
+export class SignupModal extends Component {
   state = { ...initialState };
 
   resetState = () => {
@@ -42,12 +45,12 @@ export class LoginModal extends Component {
     switch (prop) {
       case "password":
       case "username":
-        this.setState({ errorForm: false });
-        const loginData = Object.assign({}, this.state.loginData, {
+        this.setState({ errorUsername: false, errorPassword: false });
+        const signupData = Object.assign({}, this.state.signupData, {
           [prop]: event.target.value,
         });
 
-        this.setState({ loginData });
+        this.setState({ signupData });
         break;
 
       default:
@@ -56,33 +59,39 @@ export class LoginModal extends Component {
     }
   };
 
-  handleClickLogin = async () => {
+  handleClickSignup = async () => {
     try {
       if (
-        this.state.loginData.username === "" ||
-        this.state.loginData.password === ""
-      )
+        this.state.signupData.username === "" ||
+        this.state.signupData.password === "" ||
+        this.state.passwordConfirmation === ""
+      ) {
+        this.setState({ errorPassword: true, errorUsername: true });
         throw new TypeError("Missing credentials");
+      }
 
-      const { data } = await API.post("/users/login", {
-        ...this.state.loginData,
+      if (this.state.signupData.password !== this.state.passwordConfirmation) {
+        this.setState({ errorPassword: true });
+        throw new TypeError("Passwords don't match");
+      }
+
+      const { data } = await API.post("/users/signup", {
+        ...this.state.signupData,
       });
 
-      localStorage.setItem("access_token", data.token);
       toastNotification(data.message, "success");
 
       this.resetState();
-      this.props.onClickClose();
+      this.props.onSignup();
     } catch (err) {
       if (err instanceof TypeError) {
-        this.setState({ errorForm: true });
         toastNotification(err.message, "error");
       } else {
         let parsedError = Object.assign({}, err);
         parsedError = parsedError.response;
 
         if (parsedError !== undefined) {
-          this.setState({ errorForm: true });
+          this.setState({ errorUsername: true });
           const errorMessage = parsedError.data.message;
           toastNotification(errorMessage, "error");
         } else {
@@ -93,7 +102,7 @@ export class LoginModal extends Component {
   };
 
   handleClose = () => {
-    this.resetState();
+    this.setState({});
     this.props.onClickClose();
   };
 
@@ -106,8 +115,14 @@ export class LoginModal extends Component {
   };
 
   render() {
-    const { open, onSignup } = this.props;
-    const { loginData, showPassword, errorForm } = this.state;
+    const { open, onLogin } = this.props;
+    const {
+      signupData,
+      showPassword,
+      errorUsername,
+      errorPassword,
+      passwordConfirmation,
+    } = this.state;
 
     return (
       <div>
@@ -116,7 +131,7 @@ export class LoginModal extends Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Login</DialogTitle>
+          <DialogTitle id="form-dialog-title">Signup</DialogTitle>
 
           <DialogContent>
             <Box m="Auto">
@@ -128,9 +143,9 @@ export class LoginModal extends Component {
 
                   <FilledInput
                     id="outlined-adornment-username"
-                    value={loginData.username}
+                    value={signupData.username}
                     onChange={this.handleChange("username")}
-                    error={errorForm}
+                    error={errorUsername}
                     endAdornment={
                       <InputAdornment position="end">
                         <AccountBoxOutlined />
@@ -147,10 +162,9 @@ export class LoginModal extends Component {
                   <FilledInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    value={loginData.password}
+                    value={signupData.password}
                     onChange={this.handleChange("password")}
-                    error={errorForm}
-                    autoComplete="on"
+                    error={errorPassword}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -166,7 +180,31 @@ export class LoginModal extends Component {
                   />
                 </FormControl>
 
-                {/* <a href="/">Forgot password?</a> */}
+                <FormControl variant="outlined" fullWidth margin="normal">
+                  <InputLabel htmlFor="outlined-adornment-passwordConfirmation">
+                    Password confirmation
+                  </InputLabel>
+
+                  <FilledInput
+                    id="outlined-adornment-passwordConfirmation"
+                    type={showPassword ? "text" : "password"}
+                    value={passwordConfirmation}
+                    onChange={this.handleChange("passwordConfirmation")}
+                    error={errorPassword}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </form>
             </Box>
           </DialogContent>
@@ -178,8 +216,8 @@ export class LoginModal extends Component {
               justify="flex-start"
               alignItems="center"
             >
-              <Button size="small" color="secondary" onClick={onSignup}>
-                Don't have account? Create one here.
+              <Button size="small" color="secondary" onClick={onLogin}>
+                Already have account? Login here.
               </Button>
             </Grid>
 
@@ -188,11 +226,11 @@ export class LoginModal extends Component {
             </Button>
 
             <Button
-              onClick={this.handleClickLogin}
+              onClick={this.handleClickSignup}
               color="primary"
               variant="outlined"
             >
-              Login
+              Signup
             </Button>
           </DialogActions>
         </Dialog>
@@ -201,4 +239,4 @@ export class LoginModal extends Component {
   }
 }
 
-export default LoginModal;
+export default SignupModal;
