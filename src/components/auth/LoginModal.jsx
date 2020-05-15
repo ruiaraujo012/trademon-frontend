@@ -63,6 +63,7 @@ export class LoginModal extends Component {
         this.state.loginData.password === ""
       )
         throw new TypeError("Missing credentials");
+
       const { data } = await API.post("/users/login", {
         ...this.state.loginData,
       });

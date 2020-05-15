@@ -30,7 +30,7 @@ const initialState = {
   },
   passwordConfirmation: "",
   showPassword: false,
-  errorForm: false,
+  errorUsername: false,
   errorPassword: false,
 };
 
@@ -45,6 +45,7 @@ export class SignupModal extends Component {
     switch (prop) {
       case "password":
       case "username":
+        this.setState({ errorUsername: false, errorPassword: false });
         const signupData = Object.assign({}, this.state.signupData, {
           [prop]: event.target.value,
         });
@@ -58,27 +59,44 @@ export class SignupModal extends Component {
     }
   };
 
-  handleClickLogin = async () => {
+  handleClickSignup = async () => {
     try {
-      const { data } = await API.post("/users/login", {
+      if (
+        this.state.signupData.username === "" ||
+        this.state.signupData.password === "" ||
+        this.state.passwordConfirmation === ""
+      ) {
+        this.setState({ errorPassword: true, errorUsername: true });
+        throw new TypeError("Missing credentials");
+      }
+
+      if (this.state.signupData.password !== this.state.passwordConfirmation) {
+        this.setState({ errorPassword: true });
+        throw new TypeError("Passwords don't match");
+      }
+
+      const { data } = await API.post("/users/signup", {
         ...this.state.signupData,
       });
 
-      localStorage.setItem("access_token", data.token);
       toastNotification(data.message, "success");
 
       this.resetState();
-      this.props.onClickClose();
+      this.props.onSignup();
     } catch (err) {
-      let parsedError = Object.assign({}, err);
-      parsedError = parsedError.response;
-
-      if (parsedError !== undefined) {
-        this.setState({ errorForm: true });
-        const errorMessage = parsedError.data.message;
-        toastNotification(errorMessage, "error");
+      if (err instanceof TypeError) {
+        toastNotification(err.message, "error");
       } else {
-        toastNotification("Ups, error conecting to server.", "error");
+        let parsedError = Object.assign({}, err);
+        parsedError = parsedError.response;
+
+        if (parsedError !== undefined) {
+          this.setState({ errorUsername: true });
+          const errorMessage = parsedError.data.message;
+          toastNotification(errorMessage, "error");
+        } else {
+          toastNotification("Ups, error conecting to server.", "error");
+        }
       }
     }
   };
@@ -101,7 +119,7 @@ export class SignupModal extends Component {
     const {
       signupData,
       showPassword,
-      errorForm,
+      errorUsername,
       errorPassword,
       passwordConfirmation,
     } = this.state;
@@ -127,7 +145,7 @@ export class SignupModal extends Component {
                     id="outlined-adornment-username"
                     value={signupData.username}
                     onChange={this.handleChange("username")}
-                    error={errorForm}
+                    error={errorUsername}
                     endAdornment={
                       <InputAdornment position="end">
                         <AccountBoxOutlined />
@@ -146,8 +164,7 @@ export class SignupModal extends Component {
                     type={showPassword ? "text" : "password"}
                     value={signupData.password}
                     onChange={this.handleChange("password")}
-                    error={errorForm}
-                    autoComplete="on"
+                    error={errorPassword}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -165,7 +182,7 @@ export class SignupModal extends Component {
 
                 <FormControl variant="outlined" fullWidth margin="normal">
                   <InputLabel htmlFor="outlined-adornment-passwordConfirmation">
-                    Password
+                    Password confirmation
                   </InputLabel>
 
                   <FilledInput
@@ -173,9 +190,7 @@ export class SignupModal extends Component {
                     type={showPassword ? "text" : "password"}
                     value={passwordConfirmation}
                     onChange={this.handleChange("passwordConfirmation")}
-                    error
-                    helperText="Passwords don't match"
-                    autoComplete="on"
+                    error={errorPassword}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -211,7 +226,7 @@ export class SignupModal extends Component {
             </Button>
 
             <Button
-              // onClick={this.handleClickLogin}
+              onClick={this.handleClickSignup}
               color="primary"
               variant="outlined"
             >

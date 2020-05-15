@@ -75,7 +75,7 @@ export class App extends Component {
         <SignupModal
           open={openSignupModal}
           onClickClose={this.handleSignupModalClose}
-          onLogin={this.handleLogin}
+          onSignup={this.handleLogin}
         />
 
         <Box mt={10} width="70%" m="Auto">
