@@ -43,12 +43,10 @@ export class App extends Component {
   verifyToken = () => {
     try {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
-      if (decodedToken.exp > Date.now() / 1000) {
+      if (decodedToken.exp < Date.now() / 1000) {
         localStorage.removeItem("access_token");
       }
-    } catch (err) {
-      console.log("err :>> ", err);
-    }
+    } catch (err) {}
   };
 
   componentDidMount() {

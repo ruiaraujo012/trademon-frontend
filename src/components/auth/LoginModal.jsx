@@ -42,6 +42,7 @@ export class LoginModal extends Component {
     switch (prop) {
       case "password":
       case "username":
+        this.setState({ errorForm: false });
         const loginData = Object.assign({}, this.state.loginData, {
           [prop]: event.target.value,
         });
@@ -57,6 +58,11 @@ export class LoginModal extends Component {
 
   handleClickLogin = async () => {
     try {
+      if (
+        this.state.loginData.username === "" ||
+        this.state.loginData.password === ""
+      )
+        throw new TypeError("Missing credentials");
       const { data } = await API.post("/users/login", {
         ...this.state.loginData,
       });
@@ -67,15 +73,20 @@ export class LoginModal extends Component {
       this.resetState();
       this.props.onClickClose();
     } catch (err) {
-      let parsedError = Object.assign({}, err);
-      parsedError = parsedError.response;
-
-      if (parsedError !== undefined) {
+      if (err instanceof TypeError) {
         this.setState({ errorForm: true });
-        const errorMessage = parsedError.data.message;
-        toastNotification(errorMessage, "error");
+        toastNotification(err.message, "error");
       } else {
-        toastNotification("Ups, error conecting to server.", "error");
+        let parsedError = Object.assign({}, err);
+        parsedError = parsedError.response;
+
+        if (parsedError !== undefined) {
+          this.setState({ errorForm: true });
+          const errorMessage = parsedError.data.message;
+          toastNotification(errorMessage, "error");
+        } else {
+          toastNotification("Ups, error conecting to server.", "error");
+        }
       }
     }
   };
@@ -153,6 +164,8 @@ export class LoginModal extends Component {
                     }
                   />
                 </FormControl>
+
+                {/* <a href="/">Forgot password?</a> */}
               </form>
             </Box>
           </DialogContent>
