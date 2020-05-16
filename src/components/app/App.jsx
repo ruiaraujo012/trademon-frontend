@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
 import jwtDecode from "jwt-decode";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
 import { Box } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
 
 import TopBar from "../topBar/TopBar";
 import LoginModal from "../auth/LoginModal";
@@ -85,20 +83,15 @@ export class App extends Component {
           />
 
           <Box mt={10} width="70%" m="Auto">
-            <Alert severity="info" variant="filled">
-              <AlertTitle>Info</AlertTitle>
-              This app still in construction...
-            </Alert>
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
+              <Route path="/profile">
+                <UserProfile />
+              </Route>
+            </Switch>
           </Box>
-
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route path="/profile">
-              <UserProfile />
-            </Route>
-          </Switch>
         </Router>
       </div>
     );

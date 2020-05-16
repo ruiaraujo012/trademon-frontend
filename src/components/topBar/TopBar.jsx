@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -35,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const style = {
+  textDecoration: "none",
+  color: "black",
+};
 
 export function TopBar(props) {
   const classes = useStyles();
@@ -75,11 +81,15 @@ export function TopBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleLogoutMenuClose}>
-        <Box mr={1}>Logout</Box>
-        <ExitToAppOutlined />
-      </MenuItem>
+      <Link to="/profile" style={style}>
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
+      <Link to="/" style={style}>
+        <MenuItem onClick={handleLogoutMenuClose}>
+          <Box mr={1}>Logout</Box>
+          <ExitToAppOutlined />
+        </MenuItem>
+      </Link>
     </Menu>
   );
 
@@ -146,10 +156,12 @@ export function TopBar(props) {
       <div>
         <AppBar position="fixed">
           <Toolbar>
-            <Button href="/" className="custom-button-link">
-              <img src={logo} width="30" height="30" alt="Logo" />
-              Trademon
-            </Button>
+            <Link to="/" style={style}>
+              <Button className="custom-button-link">
+                <img src={logo} width="30" height="30" alt="Logo" />
+                Trademon
+              </Button>
+            </Link>
             <div className={classes.grow} />
             {loggedOutMenu}
           </Toolbar>
@@ -163,10 +175,12 @@ export function TopBar(props) {
     <div>
       <AppBar position="fixed">
         <Toolbar>
-          <Button href="/" className="custom-button-link">
-            <img src={logo} width="30" height="30" alt="Logo" />
-            Trademon
-          </Button>
+          <Link to="/" style={style}>
+            <Button className="custom-button-link">
+              <img src={logo} width="30" height="30" alt="Logo" />
+              Trademon
+            </Button>
+          </Link>
           <div className={classes.grow} />
           {loggedInMenu}
         </Toolbar>
