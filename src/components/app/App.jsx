@@ -1,14 +1,19 @@
 import React, { Component } from "react";
-import { ToastContainer } from "react-toastify";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import jwtDecode from "jwt-decode";
+import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import { Box } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
-import { TopBar } from "../topBar/TopBar";
+import TopBar from "../topBar/TopBar";
 import LoginModal from "../auth/LoginModal";
 import SignupModal from "../auth/SignupModal";
+import HomePage from "../homePage/HomePage";
+import UserProfile from "../userProfile/UserProfile";
 
 // import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -62,28 +67,39 @@ export class App extends Component {
 
     return (
       <div className="App">
-        <ToastContainer />
+        <Router>
+          <ToastContainer />
 
-        <TopBar onLogin={this.handleLogin} onLogout={this.handleLogout} />
+          <TopBar onLogin={this.handleLogin} onLogout={this.handleLogout} />
 
-        <LoginModal
-          open={openLoginModal}
-          onClickClose={this.handleLoginModalClose}
-          onSignup={this.handleSignup}
-        />
+          <LoginModal
+            open={openLoginModal}
+            onClickClose={this.handleLoginModalClose}
+            onSignup={this.handleSignup}
+          />
 
-        <SignupModal
-          open={openSignupModal}
-          onClickClose={this.handleSignupModalClose}
-          onSignup={this.handleLogin}
-        />
+          <SignupModal
+            open={openSignupModal}
+            onClickClose={this.handleSignupModalClose}
+            onSignup={this.handleLogin}
+          />
 
-        <Box mt={10} width="70%" m="Auto">
-          <Alert severity="info" variant="filled">
-            <AlertTitle>Info</AlertTitle>
-            This app still in construction...
-          </Alert>
-        </Box>
+          <Box mt={10} width="70%" m="Auto">
+            <Alert severity="info" variant="filled">
+              <AlertTitle>Info</AlertTitle>
+              This app still in construction...
+            </Alert>
+          </Box>
+
+          <Switch>
+            <Route path="/" exact>
+              <HomePage />
+            </Route>
+            <Route path="/profile">
+              <UserProfile />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
