@@ -115,7 +115,7 @@ export class SignupModal extends Component {
   };
 
   render() {
-    const { open, onLogin } = this.props;
+    const { open, onSignup } = this.props;
     const {
       signupData,
       showPassword,
@@ -216,7 +216,7 @@ export class SignupModal extends Component {
               justify="flex-start"
               alignItems="center"
             >
-              <Button size="small" color="secondary" onClick={onLogin}>
+              <Button size="small" color="secondary" onClick={onSignup}>
                 Already have account? Login here.
               </Button>
             </Grid>
