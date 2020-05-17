@@ -8,9 +8,9 @@ import {
 import jwtDecode from "jwt-decode";
 import { ToastContainer } from "react-toastify";
 
-import "react-toastify/dist/ReactToastify.css";
-
 import { Box } from "@material-ui/core";
+
+import "react-toastify/dist/ReactToastify.css";
 
 import TopBar from "../topBar/TopBar";
 import LoginModal from "../auth/LoginModal";

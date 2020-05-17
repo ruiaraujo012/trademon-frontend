@@ -110,7 +110,6 @@ export function TopBar(props) {
         >
           <AccountCircleOutlined />
         </IconButton>
-        <p>Profile</p>
       </MenuItem>
     </Menu>
   );
