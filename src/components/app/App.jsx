@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { ToastContainer } from "react-toastify";
 
@@ -13,7 +18,24 @@ import SignupModal from "../auth/SignupModal";
 import HomePage from "../homePage/HomePage";
 import UserProfile from "../userProfile/UserProfile";
 
-// import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+const AuthenticatedRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      localStorage.getItem("access_token") ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{ pathname: "/unauthorized", state: { from: props.location } }}
+        />
+      )
+    }
+  />
+);
+
+const PublicRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => <Component {...props} />} />
+);
 
 export class App extends Component {
   state = {
@@ -84,12 +106,8 @@ export class App extends Component {
 
           <Box mt={10} width="70%" m="Auto">
             <Switch>
-              <Route path="/" exact>
-                <HomePage />
-              </Route>
-              <Route path="/profile">
-                <UserProfile />
-              </Route>
+              <PublicRoute path="/" exact component={HomePage} />
+              <AuthenticatedRoute path="/profile" component={UserProfile} />
             </Switch>
           </Box>
         </Router>
