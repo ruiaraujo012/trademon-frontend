@@ -17,6 +17,7 @@ import LoginModal from "../auth/LoginModal";
 import SignupModal from "../auth/SignupModal";
 import HomePage from "../homePage/HomePage";
 import UserProfile from "../userProfile/UserProfile";
+import NotFoundPage from "../notFoundPage/NotFoundPage";
 
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -108,6 +109,9 @@ export class App extends Component {
             <Switch>
               <PublicRoute path="/" exact component={HomePage} />
               <AuthenticatedRoute path="/profile" component={UserProfile} />
+
+              <PublicRoute path="/404" component={NotFoundPage} />
+              <Redirect to="/404" />
             </Switch>
           </Box>
         </Router>
