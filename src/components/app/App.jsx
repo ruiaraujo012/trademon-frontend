@@ -18,6 +18,7 @@ import SignupModal from "../auth/SignupModal";
 import HomePage from "../homePage/HomePage";
 import UserProfile from "../userProfile/UserProfile";
 import NotFoundPage from "../notFoundPage/NotFoundPage";
+import Unauthorized from "../unauthorized/Unauthorized";
 
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -105,13 +106,14 @@ export class App extends Component {
             onSignup={this.handleLogin}
           />
 
-          <Box mt={10} width="70%" m="Auto">
+          <Box mt={10} m="10%">
             <Switch>
               <PublicRoute path="/" exact component={HomePage} />
               <AuthenticatedRoute path="/profile" component={UserProfile} />
 
-              <PublicRoute path="/404" component={NotFoundPage} />
-              <Redirect to="/404" />
+              <PublicRoute path="/pageNotFound" component={NotFoundPage} />
+              <PublicRoute path="/unauthorized" component={Unauthorized} />
+              <Redirect to="/pageNotFound" />
             </Switch>
           </Box>
         </Router>
