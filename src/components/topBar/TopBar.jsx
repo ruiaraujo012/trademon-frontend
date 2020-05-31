@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -70,6 +71,19 @@ export function TopBar(props) {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const verifyToken = () => {
+    try {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      if (decodedToken.exp < Date.now() / 1000) {
+        localStorage.removeItem("access_token");
+        return false;
+      }
+      return true;
+    } catch (err) {
+      return false;
+    }
   };
 
   const renderMenu = (
@@ -148,9 +162,7 @@ export function TopBar(props) {
     </div>
   );
 
-  const accessToken = localStorage.getItem("access_token");
-
-  if (accessToken !== null && accessToken !== undefined && localStorage !== "")
+  if (verifyToken())
     return (
       <div>
         <AppBar position="fixed">
