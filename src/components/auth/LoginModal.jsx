@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import toastNotification from "../../utils/toastNotification";
 
 import {
@@ -73,6 +74,7 @@ export class LoginModal extends Component {
 
       this.resetState();
       this.props.onClickClose();
+      this.props.history.push("/");
     } catch (err) {
       if (err instanceof TypeError) {
         this.setState({ errorForm: true });
@@ -201,4 +203,4 @@ export class LoginModal extends Component {
   }
 }
 
-export default LoginModal;
+export default withRouter(LoginModal);
