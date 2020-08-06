@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import NotFoundImage from "../../images/404image.jpg";
-import "./NotFoundPage.css";
+import "../generic/generic.css";
 
 class NotFoundPage extends React.Component {
   render() {

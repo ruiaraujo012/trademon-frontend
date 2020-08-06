@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import UnauthorizedImage from "../../images/401image.jpg";
+import "../generic/generic.css";
 
 class Unauthorized extends React.Component {
   render() {
