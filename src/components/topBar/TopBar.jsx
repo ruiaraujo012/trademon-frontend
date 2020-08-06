@@ -12,9 +12,9 @@ import {
   Box,
 } from "@material-ui/core";
 import {
-  AccountCircleOutlined,
-  ExitToAppOutlined,
-  ViewHeadlineOutlined,
+  AccountCircleTwoTone,
+  ExitToAppTwoTone,
+  ViewHeadlineTwoTone,
 } from "@material-ui/icons";
 
 import "./TopBar.css";
@@ -101,7 +101,7 @@ export function TopBar(props) {
       <Link to="/" style={style}>
         <MenuItem onClick={handleLogoutMenuClose}>
           <Box mr={1}>Logout</Box>
-          <ExitToAppOutlined />
+          <ExitToAppTwoTone />
         </MenuItem>
       </Link>
     </Menu>
@@ -122,7 +122,7 @@ export function TopBar(props) {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircleOutlined />
+          <AccountCircleTwoTone />
         </IconButton>
       </MenuItem>
     </Menu>
@@ -138,7 +138,7 @@ export function TopBar(props) {
           onClick={handleProfileMenuOpen}
           color="inherit"
         >
-          <AccountCircleOutlined />
+          <AccountCircleTwoTone />
         </IconButton>
       </div>
       <div className={classes.sectionMobile}>
@@ -148,7 +148,7 @@ export function TopBar(props) {
           onClick={handleMobileMenuOpen}
           color="inherit"
         >
-          <ViewHeadlineOutlined />
+          <ViewHeadlineTwoTone />
         </IconButton>
       </div>
     </div>

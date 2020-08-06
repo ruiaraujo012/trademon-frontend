@@ -16,9 +16,9 @@ import {
   Grid,
 } from "@material-ui/core";
 import {
-  Visibility,
-  VisibilityOff,
-  AccountBoxOutlined,
+  VisibilityTwoTone,
+  VisibilityOffTwoTone,
+  AccountBoxTwoTone,
 } from "@material-ui/icons";
 
 import API from "../../utils/api";
@@ -148,7 +148,7 @@ export class SignupModal extends Component {
                     error={errorUsername}
                     endAdornment={
                       <InputAdornment position="end">
-                        <AccountBoxOutlined />
+                        <AccountBoxTwoTone />
                       </InputAdornment>
                     }
                   />
@@ -173,7 +173,11 @@ export class SignupModal extends Component {
                           onMouseDown={this.handleMouseDownPassword}
                           edge="end"
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                          {showPassword ? (
+                            <VisibilityTwoTone />
+                          ) : (
+                            <VisibilityOffTwoTone />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -199,7 +203,11 @@ export class SignupModal extends Component {
                           onMouseDown={this.handleMouseDownPassword}
                           edge="end"
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                          {showPassword ? (
+                            <VisibilityTwoTone />
+                          ) : (
+                            <VisibilityOffTwoTone />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     }
