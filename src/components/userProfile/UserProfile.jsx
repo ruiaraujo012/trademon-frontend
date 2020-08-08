@@ -9,25 +9,46 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { EditTwoTone } from "@material-ui/icons";
+import Yellow from "../../images/yellow.jpg";
+import Blue from "../../images/blue.jpg";
+import Red from "../../images/red.jpg";
+import Unown from "../../images/unown.jpg";
 
 export class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
+      image: Unown,
       userData: null,
     };
   }
 
-  async componentDidMount() {
-    const { data } = await API.get("/users/profile");
-    this.setState({ userData: data });
-    console.log("data", data);
-    Object.keys(this.state.userData).map((d) => {
-      console.log("d", d);
-      console.log("this.state.userData[d] :>> ", this.state.userData[d]);
-    });
-    this.setState({ loading: false });
+  componentDidMount = async () => {
+    console.log("CDM");
+    try {
+      const { data } = await API.get("/users/profile");
+      this.setState({ userData: data });
+      console.log("data", data);
+      Object.keys(this.state.userData).map((d) => {
+        console.log("d", d);
+        console.log("this.state.userData[d] :>> ", this.state.userData[d]);
+      });
+      if (data.teamName === "instinct") this.setState({ image: Yellow });
+      this.setState({ loading: false });
+    } catch (err) {
+      console.log("err :>> ", err);
+    }
+  };
+
+  async componentDidUpdate(prevProps) {
+    console.log("CDU");
+    // console.log("prevProps :>> ", prevProps);
+    // if (this.props.userName !== prevProps.userName) {
+    // const { data } = await API.get("/users/profile");
+    // this.setState({ userData: data });
+    // console.log("data", data);
+    // }
   }
 
   render() {
@@ -40,7 +61,7 @@ export class UserProfile extends Component {
               component="img"
               alt="Team"
               height="200"
-              image="/images/yellow.jpg"
+              image={this.state.image}
             />
             {!this.state.loading && (
               <div>
