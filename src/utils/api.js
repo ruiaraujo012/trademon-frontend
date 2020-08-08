@@ -8,8 +8,16 @@ const instance = axios.create({
   baseURL: url,
 });
 
-instance.defaults.headers.common[
-  "Authorization"
-] = `Bearer ${localStorage.getItem("access_token")}`;
+instance.interceptors.request.use(
+  async (config) => {
+    config.headers = {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    };
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
 
 export default instance;
