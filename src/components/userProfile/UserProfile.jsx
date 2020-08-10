@@ -24,7 +24,7 @@ export class UserProfile extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     console.log("CDM");
     try {
       const { data } = await API.get("/users/profile");
@@ -39,39 +39,38 @@ export class UserProfile extends Component {
     } catch (err) {
       console.log("err :>> ", err);
     }
-  };
-
-  async componentDidUpdate(prevProps) {
-    console.log("CDU");
-    // console.log("prevProps :>> ", prevProps);
-    // if (this.props.userName !== prevProps.userName) {
-    // const { data } = await API.get("/users/profile");
-    // this.setState({ userData: data });
-    // console.log("data", data);
-    // }
   }
 
   render() {
     return (
       <div>
-        <h1>User Profile</h1>
         <Card>
           <CardContent>
             <CardMedia
               component="img"
               alt="Team"
-              height="200"
+              height="300"
               image={this.state.image}
             />
             {!this.state.loading && (
               <div>
-                <Grid container direction="row" alignItems="center" spacing={3}>
-                  <Grid item xs>
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  justify="space-between"
+                  spacing={3}
+                >
+                  <Grid item xl="auto">
                     <h1>{this.state.userData.username}</h1>
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xl="auto">
                     <Tooltip title="Edit profile">
-                      <IconButton>
+                      <IconButton
+                        onClick={() => {
+                          alert("Edit Profile");
+                        }}
+                      >
                         <EditTwoTone />
                       </IconButton>
                     </Tooltip>
