@@ -15,6 +15,7 @@ import {
   IconButton,
   Box,
   Grid,
+  Zoom,
 } from "@material-ui/core";
 import {
   VisibilityTwoTone,
@@ -117,6 +118,7 @@ export class LoginModal extends Component {
           open={open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
+          TransitionComponent={Zoom}
         >
           <DialogTitle id="form-dialog-title">Login</DialogTitle>
 
