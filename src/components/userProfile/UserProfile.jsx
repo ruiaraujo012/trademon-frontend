@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import API from "../../utils/api";
 import {
+  InputLabel,
+  FilledInput,
+  FormControl,
   Card,
   CardMedia,
   CardContent,
@@ -16,6 +19,7 @@ import {
   DialogActions,
   Button,
   Zoom,
+  TextField,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
@@ -25,11 +29,18 @@ import Blue from "../../images/blue.jpg";
 import Red from "../../images/red.jpg";
 import Unown from "../../images/unown.jpg";
 
+const userData = {};
+
 const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState(Unown);
   const [user, setUser] = useState(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    username: { error: false, message: "" },
+    level: { error: false, message: "" },
+    teamName: { error: false, message: "" },
+  });
 
   useEffect(() => {
     getUserData();
@@ -72,6 +83,22 @@ const UserProfile = () => {
   };
 
   const handleClickEdit = () => {
+    // const hasError = this.validateForm();
+  };
+
+  // const validateForm = () => {
+  //   const error = false;
+
+  //   switch (key) {
+  //     case value:
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  const handleClickOpenEditDialog = () => {
     setOpenEditDialog(true);
   };
 
@@ -96,30 +123,27 @@ const UserProfile = () => {
     </Box>
   );
 
-  const EditDialog = (
+  const EditDialog = user && (
     <Dialog
       open={openEditDialog}
       TransitionComponent={Zoom}
       // onClose={handleClose}
     >
-      <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
+      <DialogTitle>Edit Profile</DialogTitle>
       <DialogContent>
-        Test
-        {/* <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-        /> */}
+        <TextField
+          label="Username"
+          error={formErrors.username.error}
+          helperText={formErrors.username.message}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">
           Cancel
         </Button>
-        {/* <Button onClick={handleSave} color="primary"> */}
-        <Button color="primary">Save</Button>
+        <Button onClick={handleClickEdit} color="primary" variant="outlined">
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );
@@ -159,7 +183,7 @@ const UserProfile = () => {
               </Grid>
               <Grid item xl="auto">
                 <Tooltip title="Edit profile">
-                  <IconButton onClick={handleClickEdit}>
+                  <IconButton onClick={handleClickOpenEditDialog}>
                     <EditTwoTone />
                   </IconButton>
                 </Tooltip>
