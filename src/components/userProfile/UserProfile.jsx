@@ -29,6 +29,8 @@ import Blue from "../../images/blue.jpg";
 import Red from "../../images/red.jpg";
 import Unown from "../../images/unown.jpg";
 
+import { isNUE, isEmpty, isUndefined } from "../../utils/validators";
+
 const userData = {};
 
 const UserProfile = () => {
@@ -82,21 +84,55 @@ const UserProfile = () => {
     }
   };
 
-  const handleClickEdit = () => {
-    // const hasError = this.validateForm();
+  const resetFormErrors = () => {
+    setFormErrors({
+      username: { error: false, message: "" },
+      level: { error: false, message: "" },
+      teamName: { error: false, message: "" },
+    });
   };
 
-  // const validateForm = () => {
-  //   const error = false;
+  const handleClickEdit = () => {
+    const hasError = validateForm();
+    if (!hasError) {
+      resetFormErrors();
+    }
+  };
 
-  //   switch (key) {
-  //     case value:
-  //       break;
+  const validateForm = () => {
+    let hasError = false;
+    if (isNUE(user.username)) {
+      hasError = true;
+      if (isEmpty(user.username))
+        setFormErrors({
+          ...formErrors,
+          username: {
+            error: true,
+            message: "Username can't be Empty",
+          },
+        });
+      else if (isUndefined(user.username))
+        setFormErrors({
+          ...formErrors,
+          username: {
+            error: true,
+            message: "Username can't be Undefined",
+          },
+        });
+      else
+        setFormErrors({
+          ...formErrors,
+          username: {
+            error: true,
+            message: "Username can't be Null",
+          },
+        });
+    } else {
+      // TODO: Send request to check if username already exist
+    }
 
-  //     default:
-  //       break;
-  //   }
-  // };
+    return hasError;
+  };
 
   const handleClickOpenEditDialog = () => {
     setOpenEditDialog(true);
@@ -104,6 +140,16 @@ const UserProfile = () => {
 
   const handleClose = () => {
     setOpenEditDialog(false);
+  };
+
+  const handleChange = (event) => {
+    resetFormErrors();
+
+    validateForm();
+
+    const { name, value } = event.target;
+
+    setUser({ ...user, [name]: value });
   };
 
   /**
@@ -133,8 +179,11 @@ const UserProfile = () => {
       <DialogContent>
         <TextField
           label="Username"
+          name="username"
+          value={user.username}
           error={formErrors.username.error}
           helperText={formErrors.username.message}
+          onChange={handleChange}
         />
       </DialogContent>
       <DialogActions>
