@@ -19,9 +19,18 @@ import UserProfile from "components/userProfile/UserProfile";
 import NotFoundPage from "components/notFoundPage/NotFoundPage";
 import Unauthorized from "components/unauthorized/Unauthorized";
 
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 
+const useStyles = makeStyles({
+  pageContent: {
+    background: "linear-gradient(to bottom, #ffefba, #ffffff)",
+    height: "90vh",
+  },
+});
+
 const App = () => {
+  const classes = useStyles();
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openSignupDialog, setOpenSignupDialog] = useState(false);
 
@@ -104,7 +113,7 @@ const App = () => {
         <Grid item>
           <TopBar onLogin={handleLogin} onLogout={handleLogout} />
         </Grid>
-        <Grid item container>
+        <Grid item container className={classes.pageContent}>
           <Grid item sm={2} />
           <Grid item xs={12} sm={8}>
             <Switch>
