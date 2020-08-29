@@ -162,29 +162,9 @@ export function TopBar(props) {
     </div>
   );
 
-  if (verifyToken())
-    return (
-      <div>
-        <AppBar position="fixed">
-          <Toolbar>
-            <Link to="/" style={style}>
-              <Button className="custom-button-link">
-                <img src={logo} width="30" height="30" alt="Logo" />
-                Trademon
-              </Button>
-            </Link>
-            <div className={classes.grow} />
-            {loggedOutMenu}
-          </Toolbar>
-        </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
-      </div>
-    );
-
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="static">
         <Toolbar>
           <Link to="/" style={style}>
             <Button className="custom-button-link">
@@ -193,7 +173,7 @@ export function TopBar(props) {
             </Button>
           </Link>
           <div className={classes.grow} />
-          {loggedInMenu}
+          {verifyToken() ? loggedOutMenu : loggedInMenu}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

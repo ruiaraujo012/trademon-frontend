@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import toastNotification from "../../utils/toastNotification";
+import { withRouter } from "react-router-dom";
+import toastNotification from "utils/toastNotification";
 
 import {
   Button,
@@ -21,20 +22,17 @@ import {
   AccountBoxOutlined,
 } from "@material-ui/icons";
 
-import API from "../../utils/api";
+import API from "utils/api";
 
 const initialState = {
-  signupData: {
+  loginData: {
     username: "",
     password: "",
   },
-  passwordConfirmation: "",
   showPassword: false,
-  errorUsername: false,
-  errorPassword: false,
+  errorForm: false,
 };
-
-export class SignupModal extends Component {
+export class LoginDialog extends Component {
   state = { ...initialState };
 
   resetState = () => {
@@ -45,12 +43,12 @@ export class SignupModal extends Component {
     switch (prop) {
       case "password":
       case "username":
-        this.setState({ errorUsername: false, errorPassword: false });
-        const signupData = Object.assign({}, this.state.signupData, {
+        this.setState({ errorForm: false });
+        const loginData = Object.assign({}, this.state.loginData, {
           [prop]: event.target.value,
         });
 
-        this.setState({ signupData });
+        this.setState({ loginData });
         break;
 
       default:
@@ -59,39 +57,34 @@ export class SignupModal extends Component {
     }
   };
 
-  handleClickSignup = async () => {
+  handleClickLogin = async () => {
     try {
       if (
-        this.state.signupData.username === "" ||
-        this.state.signupData.password === "" ||
-        this.state.passwordConfirmation === ""
-      ) {
-        this.setState({ errorPassword: true, errorUsername: true });
+        this.state.loginData.username === "" ||
+        this.state.loginData.password === ""
+      )
         throw new TypeError("Missing credentials");
-      }
 
-      if (this.state.signupData.password !== this.state.passwordConfirmation) {
-        this.setState({ errorPassword: true });
-        throw new TypeError("Passwords don't match");
-      }
-
-      const { data } = await API.post("/users/signup", {
-        ...this.state.signupData,
+      const { data } = await API.post("/users/login", {
+        ...this.state.loginData,
       });
 
+      localStorage.setItem("access_token", data.token);
       toastNotification(data.message, "success");
 
       this.resetState();
-      this.props.onSignup();
+      this.props.onClickClose();
+      this.props.history.push("/");
     } catch (err) {
       if (err instanceof TypeError) {
+        this.setState({ errorForm: true });
         toastNotification(err.message, "error");
       } else {
         let parsedError = Object.assign({}, err);
         parsedError = parsedError.response;
 
         if (parsedError !== undefined) {
-          this.setState({ errorUsername: true });
+          this.setState({ errorForm: true });
           const errorMessage = parsedError.data.message;
           toastNotification(errorMessage, "error");
         } else {
@@ -102,7 +95,7 @@ export class SignupModal extends Component {
   };
 
   handleClose = () => {
-    this.setState({});
+    this.resetState();
     this.props.onClickClose();
   };
 
@@ -116,13 +109,7 @@ export class SignupModal extends Component {
 
   render() {
     const { open, onSignup } = this.props;
-    const {
-      signupData,
-      showPassword,
-      errorUsername,
-      errorPassword,
-      passwordConfirmation,
-    } = this.state;
+    const { loginData, showPassword, errorForm } = this.state;
 
     return (
       <div>
@@ -131,7 +118,7 @@ export class SignupModal extends Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Signup</DialogTitle>
+          <DialogTitle id="form-dialog-title">Login</DialogTitle>
 
           <DialogContent>
             <Box m="Auto">
@@ -143,9 +130,9 @@ export class SignupModal extends Component {
 
                   <FilledInput
                     id="outlined-adornment-username"
-                    value={signupData.username}
+                    value={loginData.username}
                     onChange={this.handleChange("username")}
-                    error={errorUsername}
+                    error={errorForm}
                     endAdornment={
                       <InputAdornment position="end">
                         <AccountBoxOutlined />
@@ -162,9 +149,10 @@ export class SignupModal extends Component {
                   <FilledInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    value={signupData.password}
+                    value={loginData.password}
                     onChange={this.handleChange("password")}
-                    error={errorPassword}
+                    error={errorForm}
+                    autoComplete="on"
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -180,31 +168,7 @@ export class SignupModal extends Component {
                   />
                 </FormControl>
 
-                <FormControl variant="outlined" fullWidth margin="normal">
-                  <InputLabel htmlFor="outlined-adornment-passwordConfirmation">
-                    Password confirmation
-                  </InputLabel>
-
-                  <FilledInput
-                    id="outlined-adornment-passwordConfirmation"
-                    type={showPassword ? "text" : "password"}
-                    value={passwordConfirmation}
-                    onChange={this.handleChange("passwordConfirmation")}
-                    error={errorPassword}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={this.handleClickShowPassword}
-                          onMouseDown={this.handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
+                {/* <a href="/">Forgot password?</a> */}
               </form>
             </Box>
           </DialogContent>
@@ -217,7 +181,7 @@ export class SignupModal extends Component {
               alignItems="center"
             >
               <Button size="small" color="secondary" onClick={onSignup}>
-                Already have account? Login here.
+                Don't have account? Create one here.
               </Button>
             </Grid>
 
@@ -226,11 +190,11 @@ export class SignupModal extends Component {
             </Button>
 
             <Button
-              onClick={this.handleClickSignup}
+              onClick={this.handleClickLogin}
               color="primary"
               variant="outlined"
             >
-              Signup
+              Login
             </Button>
           </DialogActions>
         </Dialog>
@@ -239,4 +203,4 @@ export class SignupModal extends Component {
   }
 }
 
-export default SignupModal;
+export default withRouter(LoginDialog);
