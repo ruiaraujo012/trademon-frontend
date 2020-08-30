@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+
+import toastNotification from "utils/toastNotification";
+
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -17,8 +20,7 @@ import {
   ViewHeadlineOutlined,
 } from "@material-ui/icons";
 
-import "./TopBar.css";
-import logo from "../../images/profile-nbg.png";
+import logo from "images/profile-nbg.png";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -36,14 +38,18 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  link: {
+    textDecoration: "none",
+    color: "black",
+  },
+  buttonLink: {
+    fontWeight: "bold",
+    fontSize: "medium",
+    color: "white",
+  },
 }));
 
-const style = {
-  textDecoration: "none",
-  color: "black",
-};
-
-export function TopBar(props) {
+const TopBar = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -75,6 +81,7 @@ export function TopBar(props) {
 
   const verifyToken = () => {
     try {
+      if (!localStorage.getItem("access_token")) return false;
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
       if (decodedToken.exp < Date.now() / 1000) {
         localStorage.removeItem("access_token");
@@ -82,6 +89,7 @@ export function TopBar(props) {
       }
       return true;
     } catch (err) {
+      toastNotification(err.message, "error");
       return false;
     }
   };
@@ -89,16 +97,14 @@ export function TopBar(props) {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="/profile" style={style}>
+      <Link to="/profile" className={classes.link}>
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       </Link>
-      <Link to="/" style={style}>
+      <Link to="/" className={classes.link}>
         <MenuItem onClick={handleLogoutMenuClose}>
           <Box mr={1}>Logout</Box>
           <ExitToAppOutlined />
@@ -110,19 +116,13 @@ export function TopBar(props) {
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircleOutlined />
+        <IconButton color="inherit">
+          <AccountCircleOutlined /> User
         </IconButton>
       </MenuItem>
     </Menu>
@@ -131,23 +131,12 @@ export function TopBar(props) {
   const loggedOutMenu = (
     <div>
       <div className={classes.sectionDesktop}>
-        <IconButton
-          edge="end"
-          aria-label="account of current user"
-          aria-haspopup="true"
-          onClick={handleProfileMenuOpen}
-          color="inherit"
-        >
+        <IconButton edge="end" onClick={handleProfileMenuOpen} color="inherit">
           <AccountCircleOutlined />
         </IconButton>
       </div>
       <div className={classes.sectionMobile}>
-        <IconButton
-          aria-label="show more"
-          aria-haspopup="true"
-          onClick={handleMobileMenuOpen}
-          color="inherit"
-        >
+        <IconButton onClick={handleMobileMenuOpen} color="inherit">
           <ViewHeadlineOutlined />
         </IconButton>
       </div>
@@ -156,7 +145,7 @@ export function TopBar(props) {
 
   const loggedInMenu = (
     <div>
-      <Button className="custom-button-link" onClick={props.onLogin}>
+      <Button className={classes.buttonLink} onClick={props.onLogin}>
         Signin
       </Button>
     </div>
@@ -166,8 +155,8 @@ export function TopBar(props) {
     <div>
       <AppBar position="static">
         <Toolbar>
-          <Link to="/" style={style}>
-            <Button className="custom-button-link">
+          <Link to="/" className={classes.link}>
+            <Button className={classes.buttonLink}>
               <img src={logo} width="30" height="30" alt="Logo" />
               Trademon
             </Button>
@@ -180,6 +169,6 @@ export function TopBar(props) {
       {renderMenu}
     </div>
   );
-}
+};
 
 export default TopBar;
