@@ -23,13 +23,10 @@ jobs:
 
 workflows:
   version: 2
-  run-tests:
-    triggers:
-      - schedule:
-          filters:
-            branches:
-              only:
-                - master
-                - develop
+  test:
     jobs:
-      - run-tests
+      - run-tests:
+        filters:
+          branches:
+            only:
+              - develop
