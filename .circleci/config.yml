@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.0
 
 jobs:
   run-tests:
@@ -23,15 +23,11 @@ jobs:
 
 workflows:
   version: 2
-  test-master:
+  test:
     jobs:
       - run-tests:
         filters:
           branches:
-            only: master
-  test-develop:
-    jobs:
-      - run-tests:
-        filters:
-          branches:
-            only: develop
+            only:
+              - master
+              - develop
