@@ -2,8 +2,6 @@ version: 2.1
 
 jobs:
   run-tests:
-    branches:
-      only: master
     docker:
       - image: circleci/node:lts
     steps:
@@ -24,6 +22,14 @@ jobs:
       - run: yarn run test
 
 workflows:
+  version: 2
   run-tests:
+    triggers:
+      - schedule:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
     jobs:
       - run-tests
