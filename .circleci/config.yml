@@ -28,12 +28,10 @@ workflows:
       - run-tests:
         filters:
           branches:
-            only:
-              - master
+            only: master
   test-develop:
     jobs:
       - run-tests:
         filters:
           branches:
-            only:
-              - develop
+            only: develop
