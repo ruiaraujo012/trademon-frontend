@@ -1,8 +1,9 @@
 version: 2.1
+
 jobs:
   run-tests:
     docker:
-      - image: "circleci/node:lts"
+      - image: circleci/node:lts
     steps:
       - checkout
       - run:
@@ -20,11 +21,15 @@ jobs:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - ./node_modules
+          # paths:
+          #   - ~/.cache/yarn
       - run:
         name: Test
         command: yarn test
+
 workflows:
-  test:
+  version: 2
+  run-tests:
     jobs:
       - run-tests
