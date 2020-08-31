@@ -6,10 +6,7 @@ jobs:
       - image: circleci/node:lts
     steps:
       - checkout
-      - run:
-        name: Install yarn
-        command: |
-          curl -o- -L https://yarnpkg.com/install.sh | bash
+      - run: curl -o- -L https://yarnpkg.com/install.sh | bash
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -22,9 +19,7 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run:
-        name: Test
-        command: yarn run test
+      - run: yarn run test
 
 workflows:
   version: 2
