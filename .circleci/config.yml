@@ -21,12 +21,10 @@ jobs:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - ./node_modules
-          # paths:
-          #   - ~/.cache/yarn
+            - ~/.cache/yarn
       - run:
         name: Test
-        command: yarn test
+        command: yarn run test
 
 workflows:
   version: 2
