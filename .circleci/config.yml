@@ -1,10 +1,8 @@
 version: 2.1
-# orbs:
-#   node: circleci/node@3.0.1
 jobs:
   run-tests:
     docker:
-      - image: cimg/node:lts
+      - image: "circleci/node:lts"
     steps:
       - checkout
       - run:
