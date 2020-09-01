@@ -12,8 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 import toastNotification from "utils/toastNotification";
 
 import TopBar from "components/topBar/TopBar";
-import LoginDialog from "components/auth/LoginDialog";
 import SignupDialog from "components/auth/SignupDialog";
+import SignIn from "components/auth/SignIn";
+import SignUp from "components/auth/SignUp";
 import HomePage from "components/homePage/HomePage";
 import UserProfile from "components/userProfile/UserProfile";
 import NotFoundPage from "components/notFoundPage/NotFoundPage";
@@ -27,11 +28,14 @@ const useStyles = makeStyles({
     background: "linear-gradient(to bottom, #ffefba, #ffffff)",
     height: "90vh",
   },
+  container: {
+    background: "linear-gradient(to bottom, #ffefba, #ffffff)",
+    height: "100vh",
+  },
 });
 
 const App = () => {
   const classes = useStyles();
-  const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openSignupDialog, setOpenSignupDialog] = useState(false);
 
   useEffect(() => {
@@ -51,22 +55,12 @@ const App = () => {
     }
   };
 
-  const handleLogin = () => {
-    setOpenLoginDialog(true);
-    setOpenSignupDialog(false);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("access_token");
   };
 
   const handleSignup = () => {
-    setOpenLoginDialog(false);
     setOpenSignupDialog(true);
-  };
-
-  const handleLoginDialogClose = () => {
-    setOpenLoginDialog(false);
   };
 
   const handleSignupDialogClose = () => {
@@ -75,59 +69,75 @@ const App = () => {
 
   // Small components
   const AuthenticatedRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={(props) =>
-        localStorage.getItem("access_token") ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{ pathname: "/unauthorized", state: { from: props.location } }}
+    <Grid container direction="column">
+      <Grid item>
+        <TopBar onLogout={handleLogout} />
+      </Grid>
+      <Grid item container className={classes.pageContent}>
+        <Grid item sm={2} />
+        <Grid item xs={12} sm={8}>
+          <Route
+            {...rest}
+            render={(props) =>
+              localStorage.getItem("access_token") ? (
+                <Component {...props} />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: "/unauthorized",
+                    state: { from: props.location },
+                  }}
+                />
+              )
+            }
           />
-        )
-      }
-    />
+        </Grid>
+        <Grid item sm={2} />
+      </Grid>
+    </Grid>
   );
 
   const PublicRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={(props) => <Component {...props} />} />
+    <Grid container direction="column">
+      <Grid item>
+        <TopBar onLogout={handleLogout} />
+      </Grid>
+      <Grid item container className={classes.pageContent}>
+        <Grid item sm={2} />
+        <Grid item xs={12} sm={8}>
+          <Route {...rest} render={(props) => <Component {...props} />} />
+        </Grid>
+        <Grid item sm={2} />
+      </Grid>
+    </Grid>
+  );
+
+  const PublicAuthRoute = ({ component: Component, ...rest }) => (
+    <Grid container direction="column" className={classes.container}>
+      <Grid item xs={12}>
+        <Route {...rest} render={(props) => <Component {...props} />} />
+      </Grid>
+    </Grid>
   );
 
   return (
     <Router>
       <ToastContainer />
 
-      <LoginDialog
-        open={openLoginDialog}
-        onClickClose={handleLoginDialogClose}
-        onSignup={handleSignup}
-      />
-
       <SignupDialog
         open={openSignupDialog}
         onClickClose={handleSignupDialogClose}
-        onSignup={handleLogin}
       />
 
-      <Grid container direction="column">
-        <Grid item>
-          <TopBar onLogin={handleLogin} onLogout={handleLogout} />
-        </Grid>
-        <Grid item container className={classes.pageContent}>
-          <Grid item sm={2} />
-          <Grid item xs={12} sm={8}>
-            <Switch>
-              <PublicRoute path="/" exact component={HomePage} />
-              <AuthenticatedRoute path="/profile" component={UserProfile} />
-
-              <PublicRoute path="/pageNotFound" component={NotFoundPage} />
-              <PublicRoute path="/unauthorized" component={Unauthorized} />
-              <Redirect to="/pageNotFound" />
-            </Switch>
-          </Grid>
-          <Grid item sm={2} />
-        </Grid>
-      </Grid>
+      <Switch>
+        <PublicRoute path="/" exact component={HomePage} />
+        <AuthenticatedRoute path="/profile" component={UserProfile} />
+        <PublicAuthRoute path="/signin" component={SignIn} />
+        <PublicAuthRoute path="/signup" component={SignUp} />
+        <PublicRoute path="/pageNotFound" component={NotFoundPage} />
+        <PublicRoute path="/unauthorized" component={Unauthorized} />
+        <Redirect to="/pageNotFound" />
+      </Switch>
     </Router>
   );
 };
