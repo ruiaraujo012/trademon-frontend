@@ -37,8 +37,8 @@ const Unauthorized = () => {
         <Grid item container direction="column" xs={12} alignItems="center">
           <Grid item xs={3} />
           <Grid item xs="auto">
-            <Button variant="outlined" color="primary" href="/">
-              Go back
+            <Button variant="outlined" color="primary" href="/signin">
+              Sign in
             </Button>
           </Grid>
           <Grid item xs={3} />
