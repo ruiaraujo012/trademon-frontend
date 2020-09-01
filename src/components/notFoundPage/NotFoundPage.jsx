@@ -1,30 +1,53 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import NotFoundImage from "../../images/404image.jpg";
-import "./NotFoundPage.css";
+import { Button, Grid } from "@material-ui/core";
+import NotFoundImage from "images/404image.jpg";
 
-class NotFoundPage extends React.Component {
-  render() {
-    return (
-      <div>
-        <img
-          src={NotFoundImage}
-          className="center-image"
-          alt="Not found"
-          width="100%"
-          style={{ borderRadius: "20px" }}
-        />
+import { makeStyles } from "@material-ui/styles";
 
-        <p style={{ textAlign: "center" }}>
-          <Button variant="outlined" color="primary">
-            <Link to="/" className="custom-link">
-              Go to Home
-            </Link>
-          </Button>
-        </p>
-      </div>
-    );
-  }
-}
+const useStyles = makeStyles({
+  mainContent: {
+    height: "90vh",
+  },
+  imageFormat: {
+    borderRadius: "20px",
+  },
+});
+
+const NotFoundPage = () => {
+  const classes = useStyles();
+  return (
+    <Grid
+      container
+      direction="row"
+      justify="center"
+      alignItems="center"
+      className={classes.mainContent}
+    >
+      <Grid item xs={1} />
+
+      <Grid item container xs="auto" justify="center" spacing={2}>
+        <Grid item xs={12}>
+          <img
+            src={NotFoundImage}
+            alt="Not found"
+            width="100%"
+            className={classes.imageFormat}
+          />
+        </Grid>
+        <Grid item container direction="column" xs={12} alignItems="center">
+          <Grid item xs={3} />
+          <Grid item xs="auto">
+            <Button variant="outlined" color="primary" href="/">
+              Go back
+            </Button>
+          </Grid>
+          <Grid item xs={3} />
+        </Grid>
+      </Grid>
+
+      <Grid item xs={1} />
+    </Grid>
+  );
+};
+
 export default NotFoundPage;
