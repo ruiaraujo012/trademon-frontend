@@ -78,7 +78,7 @@ const SignIn = (props) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className={classes.container}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlined />
