@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-import theme from "./ui/theme/index";
+import theme from "ui/theme/index";
 
-import { App } from "./components/app/App";
+import App from "components/app/App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(

@@ -4,10 +4,13 @@ WORKDIR /frontend
 
 RUN apt-get update
 
-COPY package.json yarn.lock ./
+ENV PATH /frontend/node_modules/.bin:$PATH
+
+COPY package.json ./
 
 RUN yarn
-# RUN yarn global add react-scripts
+RUN yarn global add react-scripts
+RUN yarn upgrade
 
 COPY . .
 
