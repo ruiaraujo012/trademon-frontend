@@ -1,12 +1,14 @@
 version: 2.1
 
 jobs:
-  run-tests:
+  test:
     docker:
       - image: circleci/node:lts
     steps:
       - checkout
-      - run: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - run:
+          name: Install yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -19,15 +21,17 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: yarn run test
+      - run:
+          name: Run tests
+          command: yarn run test
 
 workflows:
   version: 2
-  test:
+  run-tests:
     jobs:
-      - run-tests:
-        filters:
-          branches:
-            only:
-              - master,
-              - develop
+      - test:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
