@@ -8,7 +8,6 @@ import {
   Grid,
   Typography,
   Container,
-  FormControl,
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
   },
   submit: {
     background: "linear-gradient(to right, #F09819, #FF512F)",
@@ -47,6 +50,7 @@ const SignIn = (props) => {
 
   const handleSubmit = async () => {
     try {
+      // TODO: Change later to validate funtction
       if (signinData.username === "" || signinData.password === "")
         throw new TypeError("Missing credentials");
 
@@ -60,14 +64,12 @@ const SignIn = (props) => {
       props.history.push("/");
     } catch (err) {
       if (err instanceof TypeError) {
-        // this.setState({ errorForm: true });
         toastNotification(err.message, "error");
       } else {
         let parsedError = Object.assign({}, err);
         parsedError = parsedError.response;
 
         if (parsedError !== undefined) {
-          // this.setState({ errorForm: true });
           const errorMessage = parsedError.data.message;
           toastNotification(errorMessage, "error");
         } else {
@@ -78,7 +80,7 @@ const SignIn = (props) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.container}>
+    <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlined />
@@ -86,12 +88,11 @@ const SignIn = (props) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <FormControl fullWidth>
+        <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             fullWidth
-            id="username"
             label="Username"
             name="username"
             autoComplete="username"
@@ -107,7 +108,6 @@ const SignIn = (props) => {
             name="password"
             label="Password"
             type="password"
-            id="password"
             autoComplete="current-password"
             value={signinData.password}
             onChange={handleChange("password")}
@@ -123,15 +123,14 @@ const SignIn = (props) => {
             Sign In
           </Button>
 
-          <Grid container>
-            <Grid item xs />
+          <Grid container justify="flex-end">
             <Grid item>
               <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>
-        </FormControl>
+        </form>
       </div>
     </Container>
   );
