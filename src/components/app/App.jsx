@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 import toastNotification from "utils/toastNotification";
 
 import TopBar from "components/topBar/TopBar";
-import SignupDialog from "components/auth/SignupDialog";
 import SignIn from "components/auth/SignIn";
 import SignUp from "components/auth/SignUp";
 import HomePage from "components/homePage/HomePage";
@@ -36,7 +35,6 @@ const useStyles = makeStyles({
 
 const App = () => {
   const classes = useStyles();
-  const [openSignupDialog, setOpenSignupDialog] = useState(false);
 
   useEffect(() => {
     verifyToken();
@@ -57,14 +55,6 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
-  };
-
-  const handleSignup = () => {
-    setOpenSignupDialog(true);
-  };
-
-  const handleSignupDialogClose = () => {
-    setOpenSignupDialog(false);
   };
 
   // Small components
@@ -123,11 +113,6 @@ const App = () => {
   return (
     <Router>
       <ToastContainer />
-
-      <SignupDialog
-        open={openSignupDialog}
-        onClickClose={handleSignupDialogClose}
-      />
 
       <Switch>
         <PublicRoute path="/" exact component={HomePage} />
