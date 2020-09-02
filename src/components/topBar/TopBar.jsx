@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
 
 const TopBar = (props) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -145,7 +145,7 @@ const TopBar = (props) => {
 
   const loggedInMenu = (
     <div>
-      <Button className={classes.buttonLink} onClick={props.onLogin}>
+      <Button className={classes.buttonLink} href="/signin">
         Signin
       </Button>
     </div>
