@@ -86,12 +86,19 @@ const SignUp = (props) => {
       if (err instanceof TypeError) {
         toastNotification(err.message, "error");
       } else {
+        console.log("err :>> ", err);
         let parsedError = Object.assign({}, err);
         parsedError = parsedError.response;
 
+        console.log("parsed :>> ", parsedError);
+
         if (parsedError !== undefined) {
           const errorMessage = parsedError.data.message;
-          toastNotification(errorMessage, "error");
+          if (errorMessage.errors)
+            errorMessage.errors.forEach((error) =>
+              toastNotification(error.message, "error")
+            );
+          else toastNotification(errorMessage, "error");
         } else {
           toastNotification("Ups, error conecting to server.", "error");
         }
